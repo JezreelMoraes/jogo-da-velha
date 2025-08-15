@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication
 from resources.core.tictactoe_core import TicTacToeCore
 from resources.presentation.tictactoe_cli import TicTacToeCli
 from resources.presentation.tictactoe_desktop import TicTacToeDesktop
+from resources.presentation.tictactoe_web import app
 
 
 class TicTacToe:
@@ -24,7 +25,7 @@ class TicTacToe:
 
     @staticmethod
     def startWeb():
-        raise NotImplementedError("WEB mode is not implemented yet.")
+        app.run(debug=True)
 
 
 if __name__ == '__main__':
