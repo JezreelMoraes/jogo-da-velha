@@ -1,5 +1,10 @@
+import sys
+
+from PyQt5.QtWidgets import QApplication
+
 from resources.core.tictactoe_core import TicTacToeCore
 from resources.presentation.tictactoe_cli import TicTacToeCli
+from resources.presentation.tictactoe_desktop import TicTacToeDesktop
 
 
 class TicTacToe:
@@ -12,7 +17,10 @@ class TicTacToe:
 
     @staticmethod
     def startDesktop():
-        raise NotImplementedError("Desktop mode is not implemented yet.")
+        app = QApplication(sys.argv)
+        core = TicTacToeCore()
+        desktop = TicTacToeDesktop(app, core)
+        desktop.run()
 
     @staticmethod
     def startWeb():
