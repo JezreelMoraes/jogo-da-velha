@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name='meu-app-desktop',
@@ -9,13 +9,13 @@ setup(
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     install_requires=[
-        # Adicione suas dependências aqui, por exemplo:
-        'PyQt5',  # Se estiver usando PyQt para a interface gráfica
-        # 'tkinter',  # Se estiver usando Tkinter
+        'PyQt5',
+        'pyqt5-tools'
+        'Flask',
     ],
     entry_points={
         'console_scripts': [
-            'meu-app-desktop=main:main',  # Ajuste conforme necessário
+            'meu-app-desktop=main:main',
         ],
     },
 )
