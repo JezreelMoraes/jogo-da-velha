@@ -26,7 +26,3 @@ class TicTacToe:
     @staticmethod
     def startWeb():
         app.run(debug=True)
-
-
-if __name__ == '__main__':
-    pass
