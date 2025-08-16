@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jogo da Velha Web</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat({{board_size}}, 160px);
+            grid-gap: 5px;
+            margin: 20px auto;
+            width: max-content;
+        }
+
+        .cell {
+            width: 160px;
+            height: 160px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .info {
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .restart {
+            margin: 10px auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="info">{{ info }}</div>
+
+    <form method="post">
+        <div class="grid">
+            {% for index in range(board_size ** 2) %}
+                <button
+                    class="cell"
+                    name="move"
+                    value="{{ index }}"
+                    {% if winner or board[index] !=0 %}
+                    disabled {% endif%}
+                >{{ symbols[board[index]] }}</button>
+            {% endfor %}
+        </div>
+        <button class="restart" name="restart" value="1">Reiniciar</button>
+    </form>
+
+    {% if message %}
+        <div class="info" style="color: red;">{{ message }}</div>
+    {% endif %}
+</body>
+
+</html>
