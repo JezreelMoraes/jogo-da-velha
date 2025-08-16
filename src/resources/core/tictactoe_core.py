@@ -1,33 +1,31 @@
+from resources.core.board_position import BoardPosition
+from resources.core.constants import BOARD_SIZE
+
+
 class TicTacToeCore:
 
     EMPTY = 0
     PLAYER_X = 1
     PLAYER_O = -1
 
-    _BOARD_POSITION_BOUND = 9
-    _WIN_CONDITION = 3
+    _WIN_CONDITION_SUM = BOARD_SIZE
 
     def __init__(self):
         self.start()
 
     def start(self) -> None:
-        self.board = [self.EMPTY for _ in range(self._BOARD_POSITION_BOUND)]
+        self.board = [self.EMPTY for _ in range(BOARD_SIZE ** 2)]
         self.current_player = self.PLAYER_X
         self.winner = None
 
-    def can_play_move(self, row: int, column: int) -> bool:
-        board_position = row * 3 + column
-        if (board_position >= self._BOARD_POSITION_BOUND):
+    def can_play_move(self, position: BoardPosition) -> bool:
+        return self.board[position.index] == self.EMPTY
+
+    def play_move(self, position: BoardPosition) -> bool:
+        if not self.can_play_move(position):
             return False
 
-        return self.board[board_position] == self.EMPTY
-
-    def play_move(self, row: int, column: int) -> bool:
-        if not self.can_play_move(row, column):
-            return False
-
-        board_position = row * 3 + column
-        self.board[board_position] = self.current_player
+        self.board[position.index] = self.current_player
 
         if self._check_winner():
             self.winner = self.current_player
@@ -37,34 +35,26 @@ class TicTacToeCore:
 
         return True
 
-    def get_position_value(self, row: int, column: int) -> int:
-        board_position = row * 3 + column
-        if (board_position >= self._BOARD_POSITION_BOUND):
-            raise IndexError("Invalid board position")
-
-        return self.board[board_position]
+    def get_position_value(self, position: BoardPosition) -> int:
+        return self.board[position.index]
 
     def _check_winner(self) -> bool:
-        diagonal_sum = self.board[0] + self.board[4] + self.board[8]
-        if abs(diagonal_sum) == self._WIN_CONDITION:
+        diagonal_sum = sum(self.board[0::BOARD_SIZE + 1])
+        if abs(diagonal_sum) == self._WIN_CONDITION_SUM:
             return True
 
-        diagonal_sum = self.board[2] + self.board[4] + self.board[6]
-        if abs(diagonal_sum) == self._WIN_CONDITION:
+        inverted_diagonal_sum = sum(self.board[BOARD_SIZE - 1::BOARD_SIZE - 1])
+        if abs(inverted_diagonal_sum) == self._WIN_CONDITION_SUM:
             return True
 
-        for index in range(3):
-            horizontal_sum = sum(self.board[index*3:index*3+3])
-            if abs(horizontal_sum) == self._WIN_CONDITION:
+        for index in range(BOARD_SIZE):
+            horizontal_sum = sum(self.board[index * BOARD_SIZE:(index + 1) * BOARD_SIZE])
+            if abs(horizontal_sum) == self._WIN_CONDITION_SUM:
                 return True
 
-            vertical_sum = sum(self.board[index::3])
-            if abs(vertical_sum) == self._WIN_CONDITION:
+            vertical_sum = sum(self.board[index::BOARD_SIZE])
+            if abs(vertical_sum) == self._WIN_CONDITION_SUM:
                 return True
 
     def _switch_player(self):
         self.current_player *= -1
-
-
-if __name__ == '__main__':
-    pass
